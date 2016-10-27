@@ -1,0 +1,23 @@
+    version: '2'
+
+    services:
+
+      nginx:
+        build: dockerfiles/nginx
+        ports:
+         - "8060:80"
+        volumes:
+         - .:/usr/share/nginx/html
+        depends_on:
+         - phpfpm
+
+      phpfpm:
+        build: dockerfiles/php7-fpm
+        volumes:
+         - .:/usr/share/nginx/html
+
+      blackfire:
+        image: blackfire/blackfire
+        environment:
+         - BLACKFIRE_SERVER_ID=${BLACKFIRE_SERVER_ID}
+         - BLACKFIRE_SERVER_TOKEN=${BLACKFIRE_SERVER_TOKEN}
